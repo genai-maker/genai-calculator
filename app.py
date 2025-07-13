@@ -14,3 +14,12 @@ if user_input:
     with st.spinner("Thinking..."):
         result = generator(user_input, max_length=100, do_sample=True, temperature=0.7)
         st.success(result[0]['generated_text'])
+
+prompt = f"Answer this math question clearly and briefly: {user_input}"
+
+inputs = tokenizer(prompt, return_tensors="pt")
+outputs = model.generate(**inputs, max_new_tokens=50)
+answer = tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
+
+st.success(f"Answer: {answer}")
+
